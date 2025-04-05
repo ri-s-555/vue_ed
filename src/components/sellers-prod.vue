@@ -1,235 +1,24 @@
 <template>
   <div class="container sellers">
     <div class="sellers-header">Top Sellers</div>
-    <TabMenu :tabs="menuItems" menuClass="sellers-menu" @tab-switched="switchTab" />
+    <TabMenu :tabs="menuItems" @tab-switched="switchTab" />
     <div class="sellers-product-wrapper">
-      <div v-for="(product, index) in currentProducts" :key="index" class="sellers-product__card">
-        <div :class="['sellers-product__card__pick', product.color]">
-          <div class="sellers-product__card__pick__img">
-            <img
-              :src="product.image"
-              :alt="product.name"
-              class="sellers-product__card__pick__img__product"
-            />
-            <div
-              v-if="product.save"
-              :class="['sellers-product__card__pick__img__save', product.colorSave]"
-            >
-              Save ${{ product.save }}
-            </div>
-          </div>
-          <div class="sellers-product__card__pick__descr">
-            <div class="sellers-product__card__pick__descr__name">
-              {{ product.name }}
-            </div>
-            <div class="sellers-product__card__pick__descr__reviews">
-              <div class="sellers-product__card__pick__descr__reviews__svg">
-                <svg
-                  width="17"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M8.5 0L10.4084 5.87336L16.584 5.87336L11.5878 9.50329L13.4962 15.3766L8.5 11.7467L3.50383 15.3766L5.41219 9.50329L0.416019 5.87336L6.59163 5.87336L8.5 0Z"
-                    fill="#C00C00"
-                  ></path>
-                </svg>
-                <svg
-                  width="17"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M8.5 0L10.4084 5.87336L16.584 5.87336L11.5878 9.50329L13.4962 15.3766L8.5 11.7467L3.50383 15.3766L5.41219 9.50329L0.416019 5.87336L6.59163 5.87336L8.5 0Z"
-                    fill="#C00C00"
-                  ></path>
-                </svg>
-                <svg
-                  width="17"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M8.5 0L10.4084 5.87336L16.584 5.87336L11.5878 9.50329L13.4962 15.3766L8.5 11.7467L3.50383 15.3766L5.41219 9.50329L0.416019 5.87336L6.59163 5.87336L8.5 0Z"
-                    fill="#C00C00"
-                  ></path>
-                </svg>
-                <svg
-                  width="17"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M8.5 0L10.4084 5.87336L16.584 5.87336L11.5878 9.50329L13.4962 15.3766L8.5 11.7467L3.50383 15.3766L5.41219 9.50329L0.416019 5.87336L6.59163 5.87336L8.5 0Z"
-                    fill="#C00C00"
-                  ></path>
-                </svg>
-                <svg
-                  width="17"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M8.5 0L10.4084 5.87336L16.584 5.87336L11.5878 9.50329L13.4962 15.3766L8.5 11.7467L3.50383 15.3766L5.41219 9.50329L0.416019 5.87336L6.59163 5.87336L8.5 0Z"
-                    fill="#C00C00"
-                  ></path>
-                </svg>
-              </div>
-              <div class="sellers-product__card__pick__descr__reviews__text">
-                {{ product.review }} reviews
-              </div>
-            </div>
-            <div class="sellers-product__card__pick__descr__price">${{ product.price }}</div>
-          </div>
-        </div>
-        <button class="button-add-to-card">Buy Now</button>
-      </div>
+      <ProductCart v-for="(product, index) in currentProducts" :key="index" :product="product" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import TabMenu from './tab-menu.vue'
-
-interface Product {
-  color: string
-  colorSave: string
-  name: string
-  review: number
-  price: number
-  save: number
-  image: string
-}
+import TabMenu from '@/components/tab-menu.vue'
+import ProductCart from './product-cart.vue'
+import { type IProduct } from '../types/Product'
+import { TOP_PICKS, WATCHES } from '@/mock/data/mock-products'
 
 const menuItems = ['Top Picks', 'Watches']
-const currentProducts = ref<Product[]>([])
+const currentProducts = ref<IProduct[]>([])
 
-const topPicksArray: Product[] = [
-  {
-    color: 'card-color_mint',
-    colorSave: '',
-    name: 'Top Pick 1',
-    review: 75,
-    price: 20,
-    save: 0,
-    image: './img/Top_Pick_1.png',
-  },
-  {
-    color: 'card-color_mint',
-    colorSave: '',
-    name: 'Top Pick 2',
-    review: 75,
-    price: 20,
-    save: 0,
-    image: './img/Top_Pick_2.png',
-  },
-  {
-    color: 'card-color_mint',
-    colorSave: '',
-    name: 'Top Pick 3',
-    review: 75,
-    price: 20,
-    save: 0,
-    image: './img/Top_Pick_3.png',
-  },
-  {
-    color: 'card-color_mint',
-    colorSave: '',
-    name: 'Top Pick 4',
-    review: 75,
-    price: 20,
-    save: 0,
-    image: './img/Top_Pick_4.png',
-  },
-  {
-    color: 'card-color_mint',
-    colorSave: '',
-    name: 'Top Pick 5',
-    review: 75,
-    price: 20,
-    save: 0,
-    image: './img/Top_Pick_5.png',
-  },
-  {
-    color: 'card-color_mint',
-    colorSave: '',
-    name: 'Top Pick 6',
-    review: 75,
-    price: 20,
-    save: 0,
-    image: './img/Top_Pick_6.png',
-  },
-]
-
-const watchesArray: Product[] = [
-  {
-    color: 'card-color_purpure',
-    colorSave: '',
-    name: 'Watch 1',
-    review: 75,
-    price: 20,
-    save: 0,
-    image: './img/Watch_1.png',
-  },
-  {
-    color: 'card-color_purpure',
-    colorSave: '',
-    name: 'Watch 2',
-    review: 75,
-    price: 20,
-    save: 0,
-    image: './img/Watch_2.png',
-  },
-  {
-    color: 'card-color_purpure',
-    colorSave: '',
-    name: 'Watch 3',
-    review: 75,
-    price: 20,
-    save: 0,
-    image: './img/Watch_3.png',
-  },
-  {
-    color: 'card-color_purpure',
-    colorSave: '',
-    name: 'Watch 4',
-    review: 75,
-    price: 20,
-    save: 0,
-    image: './img/Watch_4.png',
-  },
-  {
-    color: 'card-color_purpure',
-    colorSave: '',
-    name: 'Watch 5',
-    review: 75,
-    price: 20,
-    save: 0,
-    image: './img/Watch_5.png',
-  },
-  {
-    color: 'card-color_purpure',
-    colorSave: '',
-    name: 'Watch 6',
-    review: 75,
-    price: 20,
-    save: 0,
-    image: './img/Watch_6.png',
-  },
-]
-
-const productsArrays = [topPicksArray, watchesArray]
+const productsArrays = [TOP_PICKS, WATCHES]
 
 function switchTab(index: number) {
   currentProducts.value = productsArrays[index]
@@ -237,7 +26,7 @@ function switchTab(index: number) {
 
 onMounted(() => {
   // По умолчанию показываем первую категорию
-  currentProducts.value = topPicksArray
+  currentProducts.value = productsArrays[0]
 })
 </script>
 

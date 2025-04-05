@@ -1,9 +1,9 @@
 <template>
-  <nav :class="menuClass">
-    <ul>
+  <nav>
+    <ul :class="['tab-menu', menuClass]">
       <li v-for="(tab, index) in tabs" :key="index">
         <button
-          :class="['menu__tab_button', { menu__tab_button_active: index === activeTabIndex }]"
+          :class="['tab-menu__button', { 'tab-menu__button-active': index === activeTabIndex }]"
           @click="switchTab(index)"
         >
           {{ tab }}
@@ -18,7 +18,7 @@ import { ref } from 'vue'
 
 const props = defineProps<{
   tabs: string[]
-  menuClass: string
+  menuClass?: string
   initialTab?: number
 }>()
 
@@ -35,52 +35,38 @@ function switchTab(index: number) {
 </script>
 
 <style lang="scss">
-@use '../scss/colors' as *;
+@use '@/scss/colors' as *;
 
-.sellers-menu ul {
+.tab-menu {
   display: flex;
   justify-content: space-evenly;
   list-style-type: none;
   gap: 20px;
-}
+  &__button {
+    width: 177px;
+    height: 91px;
 
-.trending-earphones__menu ul {
-  display: flex;
-  justify-content: space-evenly;
-  list-style-type: none;
-  gap: 20px;
+    border-radius: 50%;
+    background: rgb(255, 255, 255);
 
-  font-size: 26px;
-  font-weight: 600;
-  line-height: 31.69px;
-}
+    text-align: center;
+    color: rgba(0, 0, 0, 1);
 
-.menu__tab_button {
-  width: 177px;
-  height: 91px;
-
-  border-radius: 50%;
-  background: rgb(255, 255, 255);
-
-  text-align: center;
-  color: rgba(0, 0, 0, 1);
-
-  border-color: transparent;
-  font-size: 26px;
-  font-weight: 600;
-  line-height: 31.69px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    box-shadow: 0px 25px 50px 0px rgba(132, 94, 194, 0.288);
-    transform: translateY(-2px);
+    border-color: transparent;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 31.69px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    &-active {
+      border-color: transparent;
+      background: $primary-color;
+      color: rgba(255, 255, 255, 1);
+    }
+    &:hover {
+      box-shadow: 0px 25px 50px 0px rgba(132, 94, 194, 0.288);
+      transform: translateY(-2px);
+    }
   }
-}
-
-.menu__tab_button_active {
-  border-color: transparent;
-  background: $primary-color;
-  color: rgba(255, 255, 255, 1);
 }
 </style>
