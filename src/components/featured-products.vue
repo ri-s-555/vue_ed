@@ -35,7 +35,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-// Данные продукта
 const product = ref({
   title: 'Apple wireless Airpod',
   price: '45.99',
@@ -43,7 +42,6 @@ const product = ref({
     'Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a product',
 })
 
-// Изображения
 const images = ref([
   { src: '../../public/img/Featured_Products_1.png', alt: 'featured-products_1' },
   {
