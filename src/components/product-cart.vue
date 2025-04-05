@@ -33,7 +33,8 @@
         <div class="card__pick__descr__price">${{ props.product.price }}</div>
       </div>
     </div>
-    <button class="button-add-to-card" @click="addToCart">Buy Now</button>
+     
+    <mainButton @click="addToCart" title="Buy Now"  :type="ButtonType.DEFAULT"/> 
     <modalTemplate v-if="state.isShowModal" @close="closeModal"  >
         hello
     <template v-if="false" #footer>123</template>
@@ -44,6 +45,8 @@
 <script lang="ts" setup>
 import { type IProduct } from '@/types/Product'
 import modalTemplate from '@/components/ui/modal-template.vue';
+import mainButton from '@/components/ui/main-button.vue';
+import {ButtonType} from '@/components/ui/ui-types'
 import { reactive } from 'vue';
 
 interface IState {
