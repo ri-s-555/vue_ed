@@ -1,27 +1,19 @@
 <template>
   <div class="container featured-products">
     <div class="featured-products-sticker">
-      <h2 class="featured-products-sticker_header">Apple wireless Airpod</h2>
+      <h2 class="featured-products-sticker_header">{{ product.title }}</h2>
       <div class="featured-products-sticker_img">
         <img
-          class="featured-products-sticker_img-img"
-          src="../../public/img/Featured_Products_1.png"
-          alt="featured-products_1"
-        />
-        <img
-          class="featured-products-sticker_img-img pos-rel-top"
-          src="../../public/img/Featured_Products_2.png"
-          alt="featured-products_2"
-        />
-        <img
-          class="featured-products-sticker_img-img"
-          src="../../public/img/Featured_Products_3.png"
-          alt="featured-products_3"
+          v-for="(image, index) in images"
+          :key="index"
+          :class="['featured-products-sticker_img-img', { 'pos-rel-top': image.isPosRelTop }]"
+          :src="image.src"
+          :alt="image.alt"
         />
       </div>
       <div class="featured-products-sticker_price">
         <div class="featured-products-sticker_price-header">Price:</div>
-        <div class="featured-products-sticker_price-value">$45,99</div>
+        <div class="featured-products-sticker_price-value">${{ product.price }}</div>
       </div>
     </div>
     <div class="featured-products-descr">
@@ -33,14 +25,43 @@
         </p>
       </div>
       <div class="featured-products-descr_button">
-        <button class="button-add-to-card">Add to cart</button>
-        <button class="button-more">View more</button>
+        <button class="button-add-to-card" @click="addToCart">Add to cart</button>
+        <button class="button-more" @click="viewMore">View more</button>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+// Данные продукта
+const product = ref({
+  title: 'Apple wireless Airpod',
+  price: '45.99',
+  description:
+    'Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a product',
+})
+
+// Изображения
+const images = ref([
+  { src: '../../public/img/Featured_Products_1.png', alt: 'featured-products_1' },
+  {
+    src: '../../public/img/Featured_Products_2.png',
+    alt: 'featured-products_2',
+    isPosRelTop: true,
+  },
+  { src: '../../public/img/Featured_Products_3.png', alt: 'featured-products_3' },
+])
+
+function addToCart() {
+  alert(`Added ${product.value.title} to cart`)
+}
+
+function viewMore() {
+  alert('Viewing more products...')
+}
+</script>
 
 <style lang="scss">
 @use '../scss/colors' as *;
